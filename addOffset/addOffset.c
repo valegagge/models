@@ -4,7 +4,7 @@
 #include "simstruc.h"
 static void mdlInitializeSizes(SimStruct *S)
 {
-    ssSetNumSFcnParams(S, 1);
+    ssSetNumSFcnParams(S, 2);
     if (ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S)) {
         return; /* Parameter mismatch reported by the Simulink engine*/
     }
@@ -35,7 +35,9 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     real_T *y = ssGetOutputPortRealSignal(S,0);
     int_T width = ssGetOutputPortWidth(S,0);
 
-    if(*uPtrs[0]>200){
+    real_T thr = (real_T) *mxGetPr(ssGetSFcnParam(S,1));
+
+    if(*uPtrs[0]>thr){
     //if(false){
         int_T *lastVal=ssGetIWork(S);
         //lastVal[0]=350;
